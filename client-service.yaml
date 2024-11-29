@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: java-client-service
-  namespace: singlebranch  # Specify the namespace here
+  namespace: multibranch  # Specify the namespace here
 spec:
   selector:
     app: java-client
