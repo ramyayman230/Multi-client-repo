@@ -18,7 +18,7 @@ spec:
         image: romeo23/client-repo-jenkins:latest
         env:
           - name: SERVER_SERVICE_NAME
-            value: "java-server-service.singlebranch.svc.cluster.local"  # Updated for singlebranch namespace
+            value: "java-server-service.multibranch.svc.cluster.local"  # Updated for singlebranch namespace
         resources:
           requests:
             cpu: "100m"
