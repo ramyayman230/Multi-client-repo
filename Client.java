@@ -49,7 +49,7 @@ public class Client {
                      ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
 
                     LOGGER.info("Connection established with the server.");
-                    System.out.println("Enter request to server:");
+                    System.out.println("Enter request to server from Feature Branch:");
                     String condition = userInput.nextLine();
 
                     if ("exit".equalsIgnoreCase(condition)) {
