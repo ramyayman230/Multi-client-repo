@@ -9,41 +9,48 @@ pipeline {
     }
     
     stages {
-        stage('maven build') {
+
+        stage('Maven Build') {
             steps {
                sh 'mvn package'
             }
         }
-        stage('docker build') {
+        stage('Docker Build') {
             steps {
-               sh 'docker build -t romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER} .'
+               sh '''#!/bin/bash
+               docker build -t romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER} .
+               '''
             }
         }
-        stage('list images') {
+        stage('List Images') {
             steps {
                sh 'docker images'
             }
         }
-        stage('dockerhub push') {
+        stage('DockerHub Push') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                        sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
-                        sh 'docker push romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER}'
-                        sh 'docker tag romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER} romeo23/client-${env.BRANCH_NAME}-jenkins:latest'
-                        sh 'docker push romeo23/client-${env.BRANCH_NAME}-jenkins:latest'
+                        sh '''#!/bin/bash
+                        echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+                        docker push romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER}
+                        docker tag romeo23/client-${env.BRANCH_NAME}-jenkins:${BUILD_NUMBER} romeo23/client-${env.BRANCH_NAME}-jenkins:latest
+                        docker push romeo23/client-${env.BRANCH_NAME}-jenkins:latest
+                        '''
                     }
                 }
             }
         }
-        stage('Kubernetes deploy') {
+        stage('Kubernetes Deploy') {
             when {
                 branch 'master'
             }
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh 'kubectl apply -f client-deployment.yaml'
-                    sh 'kubectl apply -f client-service.yaml'
+                    sh '''#!/bin/bash
+                    kubectl apply -f client-deployment.yaml
+                    kubectl apply -f client-service.yaml
+                    '''
                 }
             }
         }
