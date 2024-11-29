@@ -9,11 +9,6 @@ pipeline {
     }
     
     stages {
-        stage('checkout stage') {
-            steps {
-                checkout scmGit(branches: [[name: "*/${env.BRANCH_NAME}"]], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ramyayman230/client-repo.git']])
-            }
-        }
         stage('maven build') {
             steps {
                sh 'mvn package'
