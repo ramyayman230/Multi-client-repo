@@ -61,7 +61,7 @@ public class Client {
                     LOGGER.info("Received response from server: " + message);
                     System.out.println("Message: " + message);
                 } catch (IOException | ClassNotFoundException e) {
-                    LOGGER.log(Level.SEVERE, "An error occurred during communication with the server: ", e);
+                    LOGGER.log(Level.SEVERE, "An error occurred during communication with the Server: ", e);
                 }
             } catch (UnknownHostException e) {
                 LOGGER.log(Level.SEVERE, "Unknown host: " + SERVER_SERVICE_NAME, e);
